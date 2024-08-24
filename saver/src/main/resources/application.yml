@@ -5,5 +5,14 @@ spring:
   application:
     name: saver
 
-randomuserapi:
+randomuser-api:
   url: "https://api.randomuser.me"
+
+file:
+  name: "UserData"
+
+person:
+  count: 50
+
+save:
+  directory: "./uploads"

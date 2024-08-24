@@ -10,7 +10,7 @@
     </parent>
     <groupId>ru.otus.basic.yampolskiy</groupId>
     <artifactId>saver</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <name>saver</name>
     <description>saver</description>
     <url/>

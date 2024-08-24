@@ -10,7 +10,7 @@ import org.springframework.web.client.RestClient;
 @Configuration
 public class SaverApplicationConfiguration {
 
-    @Value("${randomuserapi.url}")
+    @Value("${randomuser-api.url}")
     private String baseUrl;
 
     @Bean
