@@ -2,50 +2,76 @@ package ru.otus.basic.yampolskiy.saver;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.ApplicationContextFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
+import ru.otus.basic.yampolskiy.saver.controllers.SaveController;
 import ru.otus.basic.yampolskiy.saver.entities.FileFormat;
-import ru.otus.basic.yampolskiy.saver.service.CsvUserExportService;
-import ru.otus.basic.yampolskiy.saver.service.RandomUserService;
 
+
+/**
+ * Главный класс приложения SaverApplication.
+ *
+ * Этот класс запускает Spring Boot приложение и вызывает метод для получения и сохранения данных
+ * после старта приложения.
+ */
 @SpringBootApplication
 public class SaverApplication implements CommandLineRunner {
 
-    private static RandomUserService userService;
-    private static CsvUserExportService exportService;
+    /**
+     * Контроллер для управления процессом получения данных и их сохранения.
+     *
+     * Этот компонент автоматически внедряется через конструктор.
+     */
+    private static SaveController saveController;
 
-    @Value("${file.name}")
-    private String filename;
+    /**
+     * Контекст приложения.
+     *
+     */
+    private final ApplicationContext context;
 
-    @Value("${person.count}")
-    private int userLimit;
+    /**
+     * Формат сохранения данных. Значение задается из конфигурации приложения.
+     */
+    @Value("${file.format}")
+    private String fileFormat;
 
-    @Value("${save.directory}")
-    private String directory;
-
+    /**
+     * Конструктор, который инициализирует {@link SaveController}.
+     *
+     * @param saveController экземпляр {@link SaveController}, автоматически внедряемый Spring'ом.
+     */
     @Autowired
-    public SaverApplication(RandomUserService userService, CsvUserExportService exportService) {
-        SaverApplication.userService = userService;
-        SaverApplication.exportService = exportService;
+    public SaverApplication(SaveController saveController, ApplicationContext context) {
+        SaverApplication.saveController = saveController;
+        this.context = context;
     }
 
-    public static void saveDataToFile(FileFormat fileFormat, String filename, int userLimit, String directory) {
-        switch (fileFormat) {
-            case CSV -> exportService.saveToCsvFile(filename, userLimit, directory);
-            case XLSX -> System.out.println("Сохранение в формате .xlsx не поддерживается в текущей версии приложения");
-            case XLS -> System.out.println("Сохранение в формате .xls не поддерживается в текущей версии приложения");
-            default -> throw new IllegalArgumentException("Неподдерживаемый формат файла: " + fileFormat);
-        }
-    }
-
+    /**
+     * Главный метод для запуска Spring Boot приложения.
+     *
+     * @param args аргументы командной строки.
+     * @throws Exception если возникает ошибка при запуске приложения.
+     */
     public static void main(String[] args) throws Exception {
         SpringApplication.run(SaverApplication.class, args);
     }
 
+    /**
+     * Метод, который выполняется после запуска приложения.
+     *
+     * Этот метод вызывает {@link SaveController#getDataAndSave(FileFormat)} для получения и сохранения данных.
+     *
+     * @param args аргументы командной строки.
+     * @throws Exception если возникает ошибка при выполнении метода.
+     */
     @Override
     public void run(String... args) throws Exception {
-        saveDataToFile(FileFormat.CSV, filename, userLimit, directory);
+        FileFormat currentFormat = FileFormat.valueOf(fileFormat.toUpperCase());
+        saveController.getDataAndSave(currentFormat);
+        int exitCode = SpringApplication.exit(context, () -> 0);
+        System.exit(exitCode);
     }
 }

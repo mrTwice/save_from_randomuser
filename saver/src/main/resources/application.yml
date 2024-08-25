@@ -1,18 +1,24 @@
+# Конфигурация сервера
 server:
-  port: 8083
+  port: 8084 # Порт, на котором запускается сервер
 
 spring:
   application:
-    name: saver
+    name: saver # Имя приложения в контексте Spring
 
+# Конфигурация для API случайных пользователей
 randomuser-api:
-  url: "https://api.randomuser.me"
+  url: "https://api.randomuser.me" # URL для доступа к API случайных пользователей
 
+# Конфигурация файла, в который будут сохраняться данные
 file:
-  name: "UserData"
+  name: "users"  # Имя файла
+  format: "CSV"  # Формат файла (по умолчанию CSV)
 
+# Конфигурация количества пользователей, которые будут сгенерированы
 person:
-  count: 50
+  count: 50  # Количество пользователей
 
+# Конфигурация директории для сохранения файлов
 save:
-  directory: "./uploads"
+  directory: "./uploads" # Путь к директории для сохранения файлов
