@@ -10,7 +10,7 @@
     </parent>
     <groupId>ru.otus.basic.yampolskiy</groupId>
     <artifactId>saver</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <name>saver</name>
     <description>saver</description>
     <url/>
@@ -42,10 +42,9 @@
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-docker-compose</artifactId>
-            <scope>runtime</scope>
-            <optional>true</optional>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>5.3.0</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
